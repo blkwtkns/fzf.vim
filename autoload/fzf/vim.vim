@@ -283,11 +283,13 @@ function! fzf#vim#_lines(all)
   if display_bufnames
     let bufnames = {}
     for b in s:buflisted()
-      let bufnames[b] = pathshorten(fnamemodify(bufname(b), ":~:."))
+      " let bufnames[b] = pathshorten(fnamemodify(bufname(b), ":~:."))
+      let bufnames[b] = fnamemodify(bufname(b), ":~:.")
       let longest_name = max([longest_name, len(bufnames[b])])
     endfor
   endif
-  let len_bufnames = min([15, longest_name])
+  " let len_bufnames = min([15, longest_name])
+  let len_bufnames = longest_name
   for b in s:buflisted()
     let lines = getbufline(b, 1, "$")
     if empty(lines)

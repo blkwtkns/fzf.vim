@@ -21,11 +21,26 @@ usage if ARGV.empty?
 file, center = ARGV.first.split(':')
 usage unless file
 
-path = File.expand_path(file)
-unless File.readable? path
-  puts "File not found: #{file}"
-  exit 1
+# path = File.expand_path(file)
+# unless File.readable? path
+#   puts "File not found: #{file}"
+#   exit 1
+# end
+
+def checkpath(file)
+  path = File.expand_path(file)
+  File.readable? path
 end
+
+unless checkpath(file)
+  bufnum, file, center = ARGV.first.split('	')
+  file = file.strip
+  unless checkpath(file)
+    puts "File not found: #{file}"
+  end
+end
+
+path = File.expand_path(file)
 
 if `file --mime "#{file}"` =~ /binary/
   puts "#{file} is a binary file"
